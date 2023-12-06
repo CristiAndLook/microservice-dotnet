@@ -1,0 +1,18 @@
+{
+    "Blob": {
+    "ConnectionString": "",
+    "ContainerName": "userimages"
+    },
+    "ConnectionStrings": {
+    "DefaultConnection": ""
+    },
+    
+
+    "Logging": {
+    "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+    }
+    },
+    "AllowedHosts": "*"
+}
