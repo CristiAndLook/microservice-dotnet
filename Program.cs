@@ -8,6 +8,7 @@ using micronet.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.services.AddTransient<IBlob blob>();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
@@ -39,5 +40,21 @@ app.MapPost("/adults/add", async (DataContext context, Adult adult) =>
 })
 .WithName("AddAdult")
 .WithOpenApi();
+
+app.MapPost("/members/add", async (IFormFile file, DataContext context, IBlob blob, string name, string lastname, int birthyear) =>
+{
+    string filename = string.Format("{0}{1}.jpg", name.ToLower(), lastname.ToLower());
+    if(birthyear <= 17) {
+        var item = new Child() { Name = name, LastName = lastname, BirthYear = birthyear, ImageUrl = filename };
+        context.Children.Add(item);
+    }
+    else {
+        var item = new Adult() { Name = name, LastName = lastname, BirthYear = birthyear, ImageUrl = filename };
+        context.Adults.Add(item);
+    }
+})
+.WithName("AddMember")
+.WithOpenApi();
+
 
 app.Run();
